@@ -1,6 +1,5 @@
 #pragma once
 
-#include <atomic>
 #include <list>
 #include <functional>
 
@@ -42,7 +41,7 @@ private:
     };
 
     std::list<DelayedCall> m_later_calls;
-    std::atomic<CallHandle::CallID> m_next_call_id{1};
+    CallHandle::CallID m_next_call_id{1};
 
     Scheduler() {}
     Scheduler(Scheduler const&) = delete;

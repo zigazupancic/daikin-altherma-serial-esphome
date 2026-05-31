@@ -26,7 +26,7 @@ bool CallHandle::cancel() {
 }
 
 CallHandle Scheduler::call_later(CallHandle::TVoidFunc lambda, uint32_t timeout) {
-    CallHandle::CallID new_id = m_next_call_id.fetch_add(1);
+    CallHandle::CallID new_id = m_next_call_id++;
 
     m_later_calls.push_back({
         std::move(lambda),
