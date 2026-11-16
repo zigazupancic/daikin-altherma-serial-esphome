@@ -37,7 +37,7 @@ std::string Utils::to_hex(uint8_t const* data, std::size_t maxlen) {
 
 std::string Utils::to_hex(uint32_t value) {
     char hex_string[20];
-    sprintf(hex_string, "0x%02X", value);
+    sprintf(hex_string, "0x%02lX", static_cast<unsigned long>(value));
     return std::string(hex_string);
 }
 
@@ -63,6 +63,7 @@ std::map<uint16_t, std::string> Utils::str_to_map(const std::string& input) {
 
 template std::string Utils::to_hex<64u>(std::array<uint8_t, 64u> const&, std::size_t);
 template std::string Utils::to_hex<4u>(std::array<unsigned char, 4u> const&, std::size_t);
+template std::string Utils::to_hex<3u>(std::array<uint8_t, 3u> const&, std::size_t);
 
 }
 }

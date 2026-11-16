@@ -133,6 +133,8 @@ daikin_rotex_uart:
       name: TR
     outdoor_temp:
       name: Temperatura aria esterna
+    tgt_evap_temp:
+      name: Temperatura di evaporazione target
     tgt_cond_temp:
       name: Temperatura di condensazione target
     buh1:
@@ -165,3 +167,10 @@ daikin_rotex_uart:
     #  name: Potenza Termica Raw
     #voltage:
     #  name: Tensione
+
+    ###################################################################
+    #   Sensori per dispositivi con protocollo S (es. RDLQ014AA6V3)   #
+    ###################################################################
+
+    circulation_pump:
+      name: Pompa di Circolazione

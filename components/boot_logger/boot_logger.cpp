@@ -29,13 +29,17 @@ void BootLogger::loop() {
     const uint32_t now = esphome::millis();
 
     const uint32_t dump_ts = m_connected_ts + m_config.connect_delay;
-    bool log_connected = false;
     if (connected && m_connected_ts == 0) {
         m_connected_ts = now;
-        log_connected = true;
 
-        ESP_LOGE(TAG, "state: %d, connected: %d, free_heap: %d, size: %d, connected_ts: %d, dump_ts: %d, millis: %d",
-            m_state, connected, esp_get_free_heap_size(), m_items.size(), m_connected_ts, dump_ts, now);
+        ESP_LOGE(TAG, "state: %u, connected: %u, free_heap: %u, size: %u, connected_ts: %u, dump_ts: %u, millis: %u",
+            static_cast<unsigned>(m_state),
+            static_cast<unsigned>(connected),
+            static_cast<unsigned>(esp_get_free_heap_size()),
+            static_cast<unsigned>(m_items.size()),
+            static_cast<unsigned>(m_connected_ts),
+            static_cast<unsigned>(dump_ts),
+            static_cast<unsigned>(now));
     }
 
     if ((m_connected_ts > 0 && now > dump_ts) || (esp_get_free_heap_size() < m_config.heap_limit)) {
