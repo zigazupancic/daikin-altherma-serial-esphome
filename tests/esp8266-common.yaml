@@ -1,0 +1,94 @@
+# Shared body for the ESP8266 compile tests. Dummy credentials only - no secrets.
+external_components:
+  - source:
+      type: local
+      path: ../components
+    components: [daikin_rotex_uart]
+
+logger:
+  level: WARN
+
+api:
+
+ota:
+  platform: esphome
+
+wifi:
+  ssid: "dummy-ssid"
+  password: "dummy-password"
+
+uart:
+  id: uart_bus
+  tx_pin: GPIO13
+  rx_pin: GPIO15
+  baud_rate: 9600
+  parity: EVEN
+  data_bits: 8
+  stop_bits: 1
+
+daikin_rotex_uart:
+  id: rotext_hpsu_uart
+  uart_id: uart_bus
+  language: en
+  outdoor_unit: ERGA08EAV3H
+  protocol: I
+  project_git_hash:
+    name: Project Git Hash
+  entities:
+    # 0x10
+    press_eq:
+      name: Pressure Equalization
+    defrost_operation:
+      name: Defrost Operation
+    tgt_evap_temp:
+      name: Target Evaporation Temperature
+    tgt_cond_temp:
+      name: Target Condensation Temperature
+    # 0x20
+    outdoor_temp:
+      name: Outdoor Air Temperature
+    temp_after_compr:
+      name: Temperature After Compressor
+    exch_temp:
+      name: Fin Heat Exchanger Temperature
+    liq_pressure:
+      name: Refrigerant Pressure
+    t_liq2:
+      name: Refrigerant Temperature
+    # 0x21
+    inv_prim_current:
+      name: INV Primary Current
+    inv_sec_current:
+      name: INV Secondary Current
+    # 0x30
+    inv_freq:
+      name: Compressor Frequency
+    fan_speed:
+      name: Fan Speed
+    exv:
+      name: Expansion Valve
+    4_way_valve:
+      name: 4-Way Valve
+    # 0x60
+    mode_of_operating:
+      name: Mode of Operating (UART)
+    buh1:
+      name: Heating Rod Stage 1
+    buh2:
+      name: Heating Rod Stage 2
+    buh_bsh:
+      name: Heating Rod Storage
+    # 0x61
+    t_liq:
+      name: Liquid Line Temperature
+    tv:
+      name: TV
+    tv_bh:
+      name: TVBH
+    tr:
+      name: TR
+    dhw_temp:
+      name: DHW Tank Temperature
+    # derived
+    temperature_spread:
+      name: Temperature Spread

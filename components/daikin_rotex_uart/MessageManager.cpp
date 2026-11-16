@@ -148,6 +148,17 @@ bool TMessageManager::sendNextRequest(uart::UARTDevice& device) {
 
     std::shared_ptr<TRequest> pRequest = getNextRequestToSend();
     if (pRequest != nullptr) {
+        // No request is in progress at this point (either handled or timed out), so any
+        // bytes still buffered or pending on the UART are stale. Drop them so a partial
+        // or corrupted frame can never block parsing of the next response.
+        if (m_buffer.size() > 0) {
+            ESP_LOGD(TAG, "TX: dropping %d stale buffered bytes", static_cast<int>(m_buffer.size()));
+            m_buffer.clear();
+        }
+        uint8_t byte;
+        for (uint16_t i = 0; i < 256 && device.available() > 0; ++i) {
+            device.read_byte(&byte);
+        }
         return pRequest->send(device);
     }
     return false;
@@ -250,10 +261,10 @@ void TMessageManager::parseIResponse(std::string const& log_message) {
             ESP_LOGI(TAG, "RX: %s", msg.c_str());
             return;
         }
-        ESP_LOGI(TAG, "RX: incomplete buffer (%d of %d): %s", static_cast<int>(m_buffer.size()), static_cast<int>(2 + length), Utils::to_hex(m_buffer.data(), m_buffer.size()).c_str());
+        ESP_LOGV(TAG, "RX: incomplete buffer (%d of %d): %s", static_cast<int>(m_buffer.size()), static_cast<int>(2 + length), Utils::to_hex(m_buffer.data(), m_buffer.size()).c_str());
         return;
     }
-    ESP_LOGI(TAG, "RX: incomplete header: %s", log_message.c_str());
+    ESP_LOGV(TAG, "RX: incomplete header: %s", log_message.c_str());
 }
 
 void TMessageManager::parseSResponse(std::string const& log_message) {

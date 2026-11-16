@@ -89,6 +89,7 @@ daikin_rotex_uart:
   id: rotext_hpsu_uart
   uart_id: uart_bus
   language: it
+  #protocol: I  # Opzionale: I o S. Omettere per il rilevamento automatico. I per unità le cui risposte iniziano con 0x40 (salta il rilevamento).
   #outdoor_unit: RRLQ004CAV3  #Per favore, decommenta l'unità esterna
   #outdoor_unit: RRLQ006CAV3
   #outdoor_unit: RRLQ008CAV3

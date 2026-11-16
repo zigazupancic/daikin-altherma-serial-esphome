@@ -1,7 +1,7 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.const import *
-from esphome.core import Lambda
+from esphome.core import CORE, Lambda
 from esphome.cpp_types import std_ns
 from esphome.components import sensor, binary_sensor, text_sensor, uart
 from esphome.components.uart import UARTComponent
@@ -660,7 +660,8 @@ FINAL_VALIDATE_SCHEMA = uart.final_validate_device_schema(
 
 async def to_code(config):
 
-    cg.set_cpp_standard("gnu++23")
+    # The ESP8266 Arduino toolchain (GCC 10.3) has no -std=gnu++23; the code only needs C++20.
+    cg.set_cpp_standard("gnu++20" if CORE.is_esp8266 else "gnu++23")
 
     if CONF_LANGUAGE in config:
         lang = config[CONF_LANGUAGE]

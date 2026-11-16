@@ -1,0 +1,8 @@
+# ESP8266 compile test, 4 MB flash (d1_mini). Run: esphome compile tests/esp8266-d1mini-test.yaml
+esphome:
+  name: daikin-esp8266-d1mini-test
+
+esp8266:
+  board: d1_mini
+
+<<: !include esp8266-common.yaml
